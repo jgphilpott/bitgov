@@ -1,0 +1,7 @@
+# Pip Packaging Info
+BitGov.egg-info
+dist
+
+# Conda Packaging Info
+build.sh
+meta.yaml

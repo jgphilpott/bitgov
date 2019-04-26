@@ -1,0 +1,2 @@
+def server():
+    print("server")
