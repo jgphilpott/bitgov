@@ -1,8 +1,3 @@
-# Conda Packaging Info
-bld.bat
-build.sh
-meta.yaml
-
 # Pip Packaging Info
 bitgov.egg-info
 dist

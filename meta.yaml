@@ -1,0 +1,25 @@
+{% set name = "bitgov" %}
+{% set version = "0.1.2" %}
+{% set hash = "c2ebd13ffeb4aa8076e4cec9ebad7a879f783c8ccbcd7cc1af7762d8b5034ecd" %}
+
+package:
+  name: "{{ name }}"
+  version: "{{ version }}"
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: {{ hash }}
+
+build:
+  number: 0
+
+requirements:
+  host:
+    - python
+  run:
+    - python
+
+about:
+  home: https://github.com/jgphilpott/bitgov
+  summary: An application layer protocol for the establishment of decentralized democracy.
+  license: MIT
