@@ -1,13 +1,14 @@
 from setuptools import setup
 
 setup(
-   name="BitGov",
-   version="0.0.1",
+   name="bitgov",
+   version="0.1.2",
    author="Jacob Philpott",
    author_email="jacob.philpott@gmx.com",
-   url="https://github.com/jgphilpott/bitgov_protocol",
+   url="https://github.com/jgphilpott/bitgov",
    description="An application layer protocol for the establishment of decentralized democracy.",
    long_description=open("README.md").read(),
+   long_description_content_type='text/markdown',
    license="MIT",
-   packages=["bitgov"]
+   packages=["bitgov", "bitgov.proto"]
 )

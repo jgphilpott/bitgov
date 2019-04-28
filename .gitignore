@@ -1,7 +1,10 @@
 # Pip Packaging Info
-BitGov.egg-info
+bitgov.egg-info
 dist
 
 # Conda Packaging Info
 build.sh
 meta.yaml
+
+# Python Cache
+__pycache__
