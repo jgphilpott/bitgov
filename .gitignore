@@ -1,10 +1,11 @@
+# Conda Packaging Info
+bld.bat
+build.sh
+meta.yaml
+
 # Pip Packaging Info
 bitgov.egg-info
 dist
-
-# Conda Packaging Info
-build.sh
-meta.yaml
 
 # Python Cache
 __pycache__
