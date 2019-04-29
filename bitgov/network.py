@@ -1,8 +1,6 @@
-import fire
 import socket
 import threading
-from bitgov.proto.server import *
-from bitgov.proto.client import *
+from bitgov.protocol import *
 
 HOST = "0.0.0.0"
 PORT = 4242
@@ -14,7 +12,5 @@ sparks = ("138.197.142.143",)
 def connect():
     threading.Thread(target=server_start, args=(HOST, PORT, IPv4, TCP)).start()
 
-def broadcast(message):
+def broadcast(message=None):
     client_send(HOST, PORT, IPv4, TCP, message)
-
-fire.Fire()
