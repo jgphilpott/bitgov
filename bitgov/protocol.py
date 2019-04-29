@@ -1,4 +1,6 @@
+import fire
 import socket
+import threading
 from bitgov.proto.server import *
 from bitgov.proto.client import *
 
@@ -7,13 +9,12 @@ PORT = 4242
 IPv4 = socket.AF_INET
 TCP = socket.SOCK_STREAM
 
+sparks = ("138.197.142.143",)
+
 def connect():
-    start_server(HOST, PORT, IPv4, TCP)
+    threading.Thread(target=server_start, args=(HOST, PORT, IPv4, TCP)).start()
 
 def broadcast(message):
     client_send(HOST, PORT, IPv4, TCP, message)
 
-connect()
-
-message = "BitGov!"
-broadcast(message)
+fire.Fire()

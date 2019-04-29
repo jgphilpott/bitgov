@@ -1,14 +1,12 @@
 import socket
 
-def start_server(HOST, PORT, IPv, PROTOCOL):
+def server_start(HOST, PORT, IPv, PROTOCOL):
     with socket.socket(IPv, PROTOCOL) as sock:
         sock.bind((HOST, PORT))
         sock.listen()
-        conn, addr = sock.accept()
-        with conn:
-            print("Connected by", addr)
-            while True:
-                data = conn.recv(1024)
-                if not data:
-                    break
-                conn.sendall(data)
+        while True:
+            connection, address = sock.accept()
+            with connection:
+                print("Connected with:", address)
+                data = connection.recv(1024)
+                connection.sendall(data)
