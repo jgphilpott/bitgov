@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name="bitgov",
-   version="0.1.2",
+   version="0.1.3",
    author="Jacob Philpott",
    author_email="jacob.philpott@gmx.com",
    url="https://github.com/jgphilpott/bitgov",
