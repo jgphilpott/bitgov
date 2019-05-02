@@ -1,9 +1,8 @@
-import socket
-import threading
+from socket import socket
 
 def client_send(HOST, PORT, IPv, PROTOCOL, BUFF, message):
 
-    with socket.socket(IPv, PROTOCOL) as sock:
+    with socket(IPv, PROTOCOL) as sock:
 
         sock.connect((HOST, PORT))
         sock.sendall(bytes(str(message), "utf-8"))

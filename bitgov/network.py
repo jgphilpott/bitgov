@@ -1,19 +1,19 @@
-import socket
-import multiprocessing
-from bitgov.protocol import *
-from bitgov.utilities import *
+from socket import AF_INET, SOCK_STREAM
+from multiprocessing import Process
+from bitgov.protocol import server_config, client_send
+from bitgov.utilities import get_nodes
 
 HOST = "0.0.0.0"
 PORT = 4242
-IPv4 = socket.AF_INET
-TCP = socket.SOCK_STREAM
+IPv4 = AF_INET
+TCP = SOCK_STREAM
 BUFF = 1024
 
 def connect():
 
     print("\n\033[0;37mAttempting to connect with the \033[1;37mBitGov\033[0;37m network.\033[0;0m 📡\n")
 
-    server = multiprocessing.Process(target=server_config, args=(HOST, PORT, IPv4, TCP, BUFF))
+    server = Process(target=server_config, args=(HOST, PORT, IPv4, TCP, BUFF))
     server.start()
 
     get_nodes(server)

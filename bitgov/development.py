@@ -1,3 +1,3 @@
-import fire
+from fire import Fire
 from bitgov.network import *
-fire.Fire()
+Fire()

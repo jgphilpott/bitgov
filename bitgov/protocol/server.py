@@ -1,12 +1,11 @@
-import socket
-import threading
+from socket import socket
 
 def server_config(HOST, PORT, IPv, PROTOCOL, BUFF):
 
     print("\033[0;33mConfiguring the server.. \033[0;0m", end="")
     try:
 
-        with socket.socket(IPv, PROTOCOL) as sock:
+        with socket(IPv, PROTOCOL) as sock:
 
             sock.bind((HOST, PORT))
             sock.listen()
