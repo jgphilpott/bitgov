@@ -1,18 +1,16 @@
 import os
-import time
 
 def get_nodes(server):
 
-    time.sleep(3)
-    print("getting nodes")
+    print("here")
 
     # check if this is the first connection
         # if yes
             # use sparks
         # else
-            # use node list
+            # use masters
 
-    # if sparks/nodes fail to connect..
+    # if sparks/masters fail to connect..
     if server.is_alive():
         server.terminate()
 

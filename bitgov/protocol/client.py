@@ -1,4 +1,5 @@
 import socket
+import threading
 
 def client_send(HOST, PORT, IPv, PROTOCOL, BUFF, message):
 
@@ -8,7 +9,7 @@ def client_send(HOST, PORT, IPv, PROTOCOL, BUFF, message):
         sock.sendall(bytes(str(message), "utf-8"))
 
         response = b""
-        
+
         while True:
             fragment = sock.recv(BUFF)
             response += fragment

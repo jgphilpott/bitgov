@@ -1,3 +1,7 @@
+# Data
+ledger
+nodes
+
 # Pip Packaging Info
 bitgov.egg-info
 dist

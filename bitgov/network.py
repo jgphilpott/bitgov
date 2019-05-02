@@ -10,9 +10,12 @@ TCP = socket.SOCK_STREAM
 BUFF = 1024
 
 def connect():
+
     print("\n\033[0;37mAttempting to connect with the \033[1;37mBitGov\033[0;37m network.\033[0;0m 📡\n")
+
     server = multiprocessing.Process(target=server_config, args=(HOST, PORT, IPv4, TCP, BUFF))
     server.start()
+
     get_nodes(server)
 
 def broadcast(message=None):
