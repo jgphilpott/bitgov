@@ -1,16 +1,12 @@
 from socket import socket
+from threading import Thread
 from multiprocessing import Process
 from bitgov.utilities import get_nodes
 
 def server_config(HOST, PORT, IPv, PROTOCOL, BUFF):
-
-    print("\033[0;33mSetting up the server.. \033[0;0m", end="")
-
     def server_accept(sock):
+        def server_connection(connection, address):
 
-        while True:
-
-            connection, address = sock.accept()
             connection.setblocking(False)
 
             with connection:
@@ -25,6 +21,12 @@ def server_config(HOST, PORT, IPv, PROTOCOL, BUFF):
 
                 print("Received:", request)
                 connection.sendall(request)
+
+        while True:
+            connection, address = sock.accept()
+            Thread(target=server_connection, args=(connection, address)).start()
+
+    print("\033[0;33mSetting up the server.. \033[0;0m", end="")
 
     try:
         with socket(IPv, PROTOCOL) as sock:
