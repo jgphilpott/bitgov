@@ -3,7 +3,7 @@ from os.path import exists
 
 cwd = getcwd()
 
-sparks = (("159.89.112.99", 4242), ("134.209.103.162", 4242))
+sparks = ({("159.89.112.99", 4242)},)
 
 def magic_touch(path, name, extension, data):
     with open(path + "/" + name + "." + extension, "w") as outfile:
@@ -16,6 +16,6 @@ if not exists(cwd + "/bitgov/ledger"):
 if not exists(cwd + "/bitgov/nodes"):
     path = cwd + "/bitgov/nodes"
     makedirs(path)
-    magic_touch(path, "clients", "txt", [])
-    magic_touch(path, "masters", "txt", [])
+    magic_touch(path, "clients", "txt", {None})
+    magic_touch(path, "masters", "txt", {None})
     magic_touch(path, "sparks", "txt", sparks)
