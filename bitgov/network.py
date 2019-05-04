@@ -1,7 +1,7 @@
 from socket import AF_INET, SOCK_STREAM
 from bitgov.protocol import server_config, client_send
 
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 4242
 IPv4 = AF_INET
 TCP = SOCK_STREAM
