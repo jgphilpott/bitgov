@@ -1,6 +1,6 @@
 # Data
-ledger
-nodes
+bitgov/ledger
+bitgov/nodes/*.txt
 
 # Pip Packaging Info
 bitgov.egg-info

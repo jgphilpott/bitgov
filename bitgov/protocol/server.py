@@ -3,21 +3,21 @@ from threading import Thread
 from multiprocessing import Process
 from bitgov.protocol.utilities import process_incoming, process_outgoing
 
-def server_config(IPv, PROTOCOL, HOST, PORT):
+def server_config(IPv, PROTOCOL, host, port):
 
-    print("\033[0;33mSetting up the server.. \033[0;0m", end="")
+    print("\033[1;33mSetting up the server.. \033[0;0m", end="")
 
     try:
         with socket(IPv, PROTOCOL) as sock:
-            sock.bind((HOST, PORT))
+            sock.bind((host, port))
             sock.listen()
             server = Process(target=server_accept, args=(sock,))
             server.start()
             print("\033[1;32mSuccess!\033[0;0m 👍")
-            print("\033[0;33mServer running on port: \033[1;33m{}\033[0;0m\n".format(str(PORT)))
+            print("\033[1;33mServer listening on port: \033[1;32m{}\033[0;0m\n".format(str(port)))
             return server
     except:
-        print("\033[0;31mConfiguration Error!\033[0;0m ⛔\n")
+        print("\033[1;31mConfiguration Error!\033[0;0m ⛔\n")
 
 def server_accept(sock):
     while True:
@@ -26,7 +26,7 @@ def server_accept(sock):
 
 def server_connection(connection, address):
     with connection:
-        print("\033[0;33mConnected with: \033[1;33m{}:{}\033[0;0m".format(address[0], address[1]))
+        print("\033[1;33mConnected with: \033[1;32m{}:{}\033[0;0m".format(address[0], address[1]))
         request = process_incoming(connection)
-        print("\033[1;32mReceived:\033[0;32m {}\033[0;0m\n".format(request))
+        print("\033[1;33mReceived:\033[1;32m {}\033[0;0m\n".format(request))
         connection.sendall(process_outgoing(request))

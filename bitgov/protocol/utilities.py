@@ -1,3 +1,21 @@
+from socket import socket
+
+def find_available_port(IPv, PROTOCOL, host):
+
+    port = 65535
+
+    for _ in range(port):
+        try:
+            sock = socket(IPv, PROTOCOL)
+            available = sock.connect_ex((host, port))
+            if available:
+                break
+            port -= 1
+        except:
+            port -= 1
+
+    return port
+
 def process_incoming(connection):
 
     connection.settimeout(12)
@@ -16,18 +34,19 @@ def process_incoming(connection):
         if fragment_count == 0:
             if "~" in fragment:
                 try:
-                    data_length = int(fragment.split("~")[0])
+                    split = fragment.split("~", 1)
+                    data_length = int(split[0])
                     if data_length > maximum:
-                        print("\033[1;31mInvalid:\033[0;31m Declared length larger than maximum!\033[0;0m ⛔")
+                        print("\033[1;31mInvalid: Declared length larger than maximum!\033[0;0m ⛔")
                         data = None
                         break
-                    data += fragment.split("~")[1]
+                    data += split[1]
                 except:
-                    print("\033[1;31mInvalid:\033[0;31m Declared length not an integer!\033[0;0m ⛔")
+                    print("\033[1;31mInvalid: Declared length not an integer!\033[0;0m ⛔")
                     data = None
                     break
             else:
-                print("\033[1;31mInvalid:\033[0;31m No length declared!\033[0;0m ⛔")
+                print("\033[1;31mInvalid: No length declared!\033[0;0m ⛔")
                 data = None
                 break
         else:
@@ -38,11 +57,11 @@ def process_incoming(connection):
         if len(data) == data_length:
             break
         elif len(data) > data_length:
-            print("\033[1;31mInvalid:\033[0;31m Data longer than declared length!\033[0;0m ⛔")
+            print("\033[1;31mInvalid: Data longer than declared length!\033[0;0m ⛔")
             data = None
             break
         elif len(fragment) < fragment_size:
-            print("\033[1;31mInvalid:\033[0;31m Data shorter than declared length!\033[0;0m ⛔")
+            print("\033[1;31mInvalid: Data shorter than declared length!\033[0;0m ⛔")
             data = None
             break
 

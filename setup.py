@@ -10,5 +10,5 @@ setup(
    long_description=open("README.md").read(),
    long_description_content_type='text/markdown',
    license="MIT",
-   packages=["bitgov", "bitgov.models", "bitgov.protocol"]
+   packages=["bitgov", "bitgov.models", "bitgov.nodes", "bitgov.protocol"]
 )
