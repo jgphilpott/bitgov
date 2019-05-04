@@ -49,6 +49,4 @@ def process_incoming(connection):
     return data
 
 def process_outgoing(data):
-    data_length = len(str(data))
-    data = str(data_length) + "~" + str(data)
-    return bytes(data, "utf-8")
+    return bytes(str(len(str(data))) + "~" + str(data), "utf-8")
