@@ -1,8 +1,8 @@
-from socket import socket
+from socket import socket, AF_INET, SOCK_STREAM
 from multiprocessing import Process
 from bitgov.protocol.utilities import process_incoming, process_outgoing
 
-def client_broadcast(IPv, PROTOCOL, host, port, data):
+def client_broadcast(IPv=AF_INET, PROTOCOL=SOCK_STREAM, host="127.0.0.1", port=65535, data=None):
     try:
         with socket(IPv, PROTOCOL) as sock:
             sock.connect((host, port))

@@ -6,13 +6,14 @@ from bitgov.utilities import read, write
 cwd = getcwd()
 nodes_path = cwd + "/bitgov/nodes/sets"
 
-sparks = ({("159.89.112.99", 65535)},)
+empty_set = {None}
+sparks_set = ({("159.89.112.99", 65535)},)
 
 if not exists(nodes_path):
     makedirs(nodes_path)
-    write(nodes_path, "clients", "txt", {None})
-    write(nodes_path, "masters", "txt", {None})
-    write(nodes_path, "sparks", "txt", sparks)
+    write(nodes_path, "clients", "txt", empty_set)
+    write(nodes_path, "masters", "txt", empty_set)
+    write(nodes_path, "sparks", "txt", sparks_set)
 
 def get_clients_set():
     return literal_eval(read(nodes_path, "clients", "txt"))
@@ -34,8 +35,6 @@ def get_nodes(server, port):
         if None not in masters:
             pass
         else:
-            for spark in sparks:
-                print(spark)
             print("")
     else:
         pass
