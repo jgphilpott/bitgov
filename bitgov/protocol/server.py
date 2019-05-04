@@ -3,7 +3,7 @@ from threading import Thread
 from multiprocessing import Process
 from bitgov.protocol.utilities import process_incoming, process_outgoing
 
-def server_config(HOST, PORT, IPv, PROTOCOL):
+def server_config(IPv, PROTOCOL, HOST, PORT):
 
     print("\033[0;33mSetting up the server.. \033[0;0m", end="")
 

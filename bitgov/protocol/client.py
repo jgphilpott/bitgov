@@ -2,7 +2,7 @@ from socket import socket
 from multiprocessing import Process
 from bitgov.protocol.utilities import process_incoming, process_outgoing
 
-def client_broadcast(HOST, PORT, IPv, PROTOCOL, data):
+def client_broadcast(IPv, PROTOCOL, HOST, PORT, data):
     try:
         with socket(IPv, PROTOCOL) as sock:
             sock.connect((HOST, PORT))

@@ -1,5 +1,22 @@
 from os import getcwd
+from socket import socket
 from ast import literal_eval
+
+def find_available_port(IPv, PROTOCOL, HOST):
+
+    PORT = 65535
+
+    for _ in range(PORT):
+        try:
+            sock = socket(IPv, PROTOCOL)
+            available = sock.connect_ex((HOST, PORT))
+            if available != 0:
+                break
+            PORT -= 1
+        except:
+            PORT -= 1
+
+    return PORT
 
 def get_nodes(server):
 
