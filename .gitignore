@@ -1,6 +1,6 @@
 # Data
-bitgov/ledger
-bitgov/nodes/*.txt
+ledger
+sets
 
 # Development Tools
 development.py
