@@ -4,7 +4,7 @@ from ast import literal_eval
 from bitgov.utilities import read, write
 
 cwd = getcwd()
-nodes_path = cwd + "/bitgov/nodes/sets"
+nodes_path = cwd + "/bitgov/node_sets"
 
 empty_set = {None}
 sparks_set = ({("159.89.112.99", 65535)},)
