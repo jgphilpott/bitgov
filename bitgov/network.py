@@ -1,15 +1,17 @@
 from socket import AF_INET, SOCK_STREAM
-from bitgov.protocol import server_config, client_send
+from bitgov.protocol import server_config, client_broadcast
+from bitgov.utilities import get_nodes
 
-HOST = "0.0.0.0"
 PORT = 4242
 IPv4 = AF_INET
 TCP = SOCK_STREAM
-BUFF = 1024
+# BUFF = 1024
 
 def connect():
+    HOST = "0.0.0.0"
     print("\n\033[0;37mAttempting to connect with the \033[1;37mBitGov\033[0;37m network.\033[0;0m 📡\n")
-    server_config(HOST, PORT, IPv4, TCP, BUFF)
+    server = server_config(HOST, PORT, IPv4, TCP)
+    get_nodes(server)
 
-def broadcast(message=None):
-    client_send(HOST, PORT, IPv4, TCP, BUFF, message)
+def broadcast(data=None, HOST="0.0.0.0"):
+    client_broadcast(HOST, PORT, IPv4, TCP, data)

@@ -5,6 +5,7 @@ def get_nodes(server):
 
     print("\033[0;33mConnecting with nodes.. \033[0;0m", end="")
     print(server)
+    print("")
 
     # cwd = getcwd()
     # nodes_path = cwd + "/bitgov/nodes"
