@@ -81,12 +81,12 @@ def process_incoming(connection):
 def process_outgoing(data):
     return bytes(str(len(str(data))) + "~" + str(data), "utf-8")
 
+def switch(data, address=None):
+
+    function = request_switch[data["type"]]
+
+    return function(data, address)
+
 request_switch = {
     "ip_check": ip_check
 }
-
-def switch(request, address):
-
-    function = request_switch[request["type"]]
-
-    return function(address)

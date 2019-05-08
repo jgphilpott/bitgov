@@ -29,5 +29,8 @@ def server_connection(connection, address):
         print("\033[1;33mConnected with: \033[1;32m{}:{}\033[0;0m".format(address[0], address[1]))
         request = process_incoming(connection)
         print("\033[1;33mReceived:\033[1;32m {}\033[0;0m\n".format(request))
-        response = switch(request, address)
+        if request:
+            response = switch(request, address)
+        else:
+            response = None
         connection.sendall(process_outgoing(response))
