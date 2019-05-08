@@ -1,4 +1,6 @@
 from socket import socket
+from ast import literal_eval
+from bitgov.protocol.requests import *
 
 def find_available_port(IPv, PROTOCOL, host):
 
@@ -55,7 +57,16 @@ def process_incoming(connection):
         fragment_count += 1
 
         if len(data) == data_length:
-            break
+            try:
+                data = literal_eval(data)
+                if type(data) is dict and data["type"] in request_switch.keys():
+                    break
+                else:
+                    raise
+            except:
+                print("\033[1;31mInvalid: Data type not accepted!\033[0;0m ⛔")
+                data = None
+                break
         elif len(data) > data_length:
             print("\033[1;31mInvalid: Data longer than declared length!\033[0;0m ⛔")
             data = None
@@ -69,3 +80,13 @@ def process_incoming(connection):
 
 def process_outgoing(data):
     return bytes(str(len(str(data))) + "~" + str(data), "utf-8")
+
+request_switch = {
+    "ip_check": ip_check
+}
+
+def switch(request, address):
+
+    function = request_switch[request["type"]]
+
+    return function(address)

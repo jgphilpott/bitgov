@@ -1,7 +1,7 @@
 from socket import socket
 from threading import Thread
 from multiprocessing import Process
-from bitgov.protocol.utilities import process_incoming, process_outgoing
+from bitgov.protocol.utilities import process_incoming, process_outgoing, switch
 
 def server_config(IPv, PROTOCOL, host, port):
 
@@ -29,4 +29,5 @@ def server_connection(connection, address):
         print("\033[1;33mConnected with: \033[1;32m{}:{}\033[0;0m".format(address[0], address[1]))
         request = process_incoming(connection)
         print("\033[1;33mReceived:\033[1;32m {}\033[0;0m\n".format(request))
-        connection.sendall(process_outgoing(request))
+        response = switch(request, address)
+        connection.sendall(process_outgoing(response))
