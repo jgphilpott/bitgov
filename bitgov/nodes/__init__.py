@@ -23,7 +23,7 @@ def get_masters_set():
 def get_sparks_set():
     return literal_eval(read(nodes_path, "sparks", "txt"))[0]
 
-def get_nodes(server):
+def get_nodes(server, port):
 
     print("\033[1;33mConnecting with nodes.. \033[0;0m", end="")
 

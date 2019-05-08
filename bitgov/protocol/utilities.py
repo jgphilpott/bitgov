@@ -1,3 +1,21 @@
+from socket import socket
+
+def find_available_port(IPv, PROTOCOL, host):
+
+    port = 65535
+
+    for _ in range(port):
+        try:
+            sock = socket(IPv, PROTOCOL)
+            available = sock.connect_ex((host, port))
+            if available:
+                break
+            port -= 1
+        except:
+            port -= 1
+
+    return port
+
 def process_incoming(connection):
 
     connection.settimeout(12)
