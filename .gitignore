@@ -2,9 +2,6 @@
 ledger
 sets
 
-# Development Tools
-development.py
-
 # Pip Packaging Info
 bitgov.egg-info
 dist

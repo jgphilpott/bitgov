@@ -1,9 +1,9 @@
-from socket import socket, AF_INET, SOCK_STREAM
+from socket import socket
 from threading import Thread
 from multiprocessing import Process
 from bitgov.protocol.utilities import process_incoming, process_outgoing
 
-def server_config(IPv=AF_INET, PROTOCOL=SOCK_STREAM, host="127.0.0.1", port=65535):
+def server_config(IPv, PROTOCOL, host, port):
 
     print("\033[1;33mSetting up the server.. \033[0;0m", end="")
 
