@@ -2,7 +2,7 @@ from socket import socket
 
 def find_available_port(IPv, PROTOCOL, host):
 
-    port = 65535
+    port = 4242
 
     for _ in range(port):
         try:
