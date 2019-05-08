@@ -1,5 +1,3 @@
-host = "127.0.0.1"
-
 from socket import AF_INET, SOCK_STREAM
 from bitgov.nodes import get_nodes
 from bitgov.protocol import server_config, client_broadcast
