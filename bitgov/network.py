@@ -16,5 +16,5 @@ def connect():
     server = server_config(IPv4, TCP, host, port)
     get_nodes(server, port)
 
-def broadcast(request=None, host="0.0.0.0", port=65535):
+def broadcast(host="0.0.0.0", request={"type": "ip_check"}, port=65535):
     client_broadcast(IPv4, TCP, host, port, request)

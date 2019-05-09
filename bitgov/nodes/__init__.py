@@ -1,9 +1,8 @@
 from os import getcwd, makedirs
 from os.path import exists
 from ast import literal_eval
-from socket import AF_INET, SOCK_STREAM
 from bitgov.utilities import read, write
-from bitgov.protocol.client import client_get
+from bitgov.protocol.utilities import get_wan_ip
 
 cwd = getcwd()
 nodes_path = cwd + "/bitgov/node_sets"
@@ -38,8 +37,9 @@ def get_nodes(server, port):
             pass
         else:
             for spark in sparks:
-                ip = client_get(AF_INET, SOCK_STREAM, spark[0], spark[1], {"type": "ip_check"})
+                ip = get_wan_ip(spark[0], spark[1])
                 if ip:
-                    print(ip["data"])
+                    print(ip["address"])
+                    break
     else:
         pass

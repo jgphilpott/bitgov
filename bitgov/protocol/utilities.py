@@ -1,5 +1,5 @@
-from socket import socket
 from ast import literal_eval
+from socket import socket, AF_INET, SOCK_STREAM
 from bitgov.protocol.requests import *
 
 def find_available_port(IPv, PROTOCOL, host):
@@ -17,6 +17,16 @@ def find_available_port(IPv, PROTOCOL, host):
             port -= 1
 
     return port
+
+def get_wan_ip(host, port):
+    try:
+        with socket(AF_INET, SOCK_STREAM) as sock:
+            sock.connect((host, port))
+            sock.sendall(process_outgoing({"type": "ip_check"}))
+            response = process_incoming(sock)
+            return response
+    except:
+        return None
 
 def process_incoming(connection):
 
@@ -81,7 +91,7 @@ def process_incoming(connection):
 def process_outgoing(data):
     return bytes(str(len(str(data))) + "~" + str(data), "utf-8")
 
-def switch(data, address=None):
+def switch(data, address):
 
     function = request_switch[data["type"]]
 

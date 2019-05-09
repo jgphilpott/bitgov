@@ -17,13 +17,3 @@ def client_send(connection, request):
     if response:
         switch(response)
     print("\033[1;33mResponse:\033[1;32m {}\033[0;0m\n".format(response))
-
-def client_get(IPv, PROTOCOL, host, port, request):
-    try:
-        with socket(IPv, PROTOCOL) as sock:
-            sock.connect((host, port))
-            sock.sendall(process_outgoing(request))
-            response = process_incoming(sock)
-            return response
-    except:
-        return None
