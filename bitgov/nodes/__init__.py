@@ -39,7 +39,11 @@ def get_nodes(server, port):
             for spark in sparks:
                 ip = get_wan_ip(spark[0], spark[1])
                 if ip:
-                    print(ip["address"])
+                    address = (ip["address"][0], port)
                     break
+                else:
+                    address = None
+            if address in sparks:
+                print("im a spark")
     else:
         pass
