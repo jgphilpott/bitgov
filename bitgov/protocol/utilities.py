@@ -91,7 +91,7 @@ def process_incoming(connection):
 def process_outgoing(data):
     return bytes(str(len(str(data))) + "~" + str(data), "utf-8")
 
-def switch(data, address):
+def switch(data, address=None):
 
     function = request_switch[data["type"]]
 
