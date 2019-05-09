@@ -39,6 +39,7 @@ def get_nodes(server, port):
         else:
             for spark in sparks:
                 ip = client_get(AF_INET, SOCK_STREAM, spark[0], spark[1], {"type": "ip_check"})
-                print(ip["data"])
+                if ip:
+                    print(ip["data"])
     else:
         pass
