@@ -1,8 +1,8 @@
 from os import getcwd, makedirs
 from os.path import exists
-from ast import literal_eval
-from bitgov.utilities import read, write
-from bitgov.protocol.utilities import get_wan_ip
+from bitgov.utilities import write
+from bitgov.nodes.utilities import *
+from bitgov.protocol.utilities import client_get
 
 cwd = getcwd()
 nodes_path = cwd + "/bitgov/node_sets"
@@ -16,21 +16,10 @@ if not exists(nodes_path):
     write(nodes_path, "masters", "txt", empty_set)
     write(nodes_path, "sparks", "txt", sparks_set)
 
-def get_clients_set():
-    return literal_eval(read(nodes_path, "clients", "txt"))
-
-def get_masters_set():
-    return literal_eval(read(nodes_path, "masters", "txt"))
-
-def get_sparks_set():
-    return literal_eval(read(nodes_path, "sparks", "txt"))[0]
-
-def spark_check(port):
-
-    sparks = get_sparks_set()
+def spark_check(sparks, port):
 
     for spark in sparks:
-        ip = get_wan_ip(spark[0], spark[1])
+        ip = client_get(spark[0], spark[1], {"type": "ip_check"})
         if ip:
             address = (ip["address"][0], port)
             break
@@ -41,16 +30,24 @@ def spark_check(port):
         print("\033[1;32mSuccess!\033[0;0m 👍")
         print("\033[1;33mYour status is: \033[1;32mSpark\033[0;0m 🥇\n")
 
+def get_masters(set):
+
+    for item in set:
+        masters_set = client_get(item[0], item[1], {"type": "get_masters"})
+        print(masters_set)
+
 def get_nodes(server, port):
 
     print("\033[1;33mConnecting with nodes.. \033[0;0m", end="")
 
     masters = get_masters_set()
+    sparks = get_sparks_set()
 
     if server is not None:
         if None not in masters:
             pass
         else:
-            spark_check(port)
+            spark_check(sparks, port)
+            get_masters(sparks)
     else:
         pass
