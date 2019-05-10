@@ -25,25 +25,32 @@ def get_masters_set():
 def get_sparks_set():
     return literal_eval(read(nodes_path, "sparks", "txt"))[0]
 
+def spark_check(port):
+
+    sparks = get_sparks_set()
+
+    for spark in sparks:
+        ip = get_wan_ip(spark[0], spark[1])
+        if ip:
+            address = (ip["address"][0], port)
+            break
+        else:
+            address = None
+
+    if address in sparks:
+        print("\033[1;32mSuccess!\033[0;0m 👍")
+        print("\033[1;33mYour status is: \033[1;32mSpark\033[0;0m 🥇\n")
+
 def get_nodes(server, port):
 
     print("\033[1;33mConnecting with nodes.. \033[0;0m", end="")
 
     masters = get_masters_set()
-    sparks = get_sparks_set()
 
     if server is not None:
         if None not in masters:
             pass
         else:
-            for spark in sparks:
-                ip = get_wan_ip(spark[0], spark[1])
-                if ip:
-                    address = (ip["address"][0], port)
-                    break
-                else:
-                    address = None
-            if address in sparks:
-                print("im a spark")
+            spark_check(port)
     else:
         pass
