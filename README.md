@@ -4,58 +4,130 @@
 
 # BitGov
 
-BitGov is an application layer protocol built with the Python socket module. It piggybacks on the layer four Transmission Control Protocol ([TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)) in combination with the [IPv4](https://en.wikipedia.org/wiki/IPv4) address family.
+BitGov is an exploration of **decentralized digital democracy** using Solidity smart contracts on the Ethereum blockchain.
 
-## Installation
+> **Note:** The original Python implementation has been preserved on the [`copilot/preserve-old-python-code`](https://github.com/jgphilpott/bitgov/tree/copilot/preserve-old-python-code) branch.
 
-To use the BitGov protocol in your own application you may use one of the two methods listed below.
+---
 
-### Conda (recommended)
+## What is Solidity?
 
-Assuming you have [Anaconda installed](https://docs.anaconda.com/anaconda/install/), active the environment in which you want to install the package.
+[Solidity](https://soliditylang.org) is a statically-typed, object-oriented programming language designed specifically for writing **smart contracts** — self-executing programs that live on the Ethereum blockchain.
 
-```
-conda activate <environment>
-```
+Key properties:
 
-If you want to create a new environment first use `conda create --name <environment>` or if you want to see a list of all your conda environments, `conda info --envs`.
+- **Deterministic** — the same inputs always produce the same outputs, on every node worldwide.
+- **Trustless** — no central authority controls execution; the EVM (Ethereum Virtual Machine) does.
+- **Immutable** — once deployed, contract code cannot be changed (unless explicitly designed to be upgradeable).
+- **Transparent** — all contract code and state is publicly verifiable on-chain.
 
-Next, install the package.
+These properties make Solidity a natural fit for governance applications where trust, transparency, and censorship-resistance matter.
 
-```
-conda install -c jgphilpott bitgov
-```
+---
 
-**Note**: It may be necessary to first add the channel 'jgphilpott'. To do this use `conda config --add channels jgphilpott`. To view a list of all your conda channels, `conda config --get channels`.
+## Hello World
 
-All done! You should now be able to see the package listed in your environment, `conda list`.
+The classic starting point. The `HelloWorld` contract stores a greeting string on-chain and exposes functions to read and update it.
 
-### Pip (alternative)
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.28;
 
-First, navigate into your project directory and active the environment in which you want to install the package.
+contract HelloWorld {
+    string private _message;
 
-```
-source <environment>/bin/activate
-```
+    event MessageChanged(string newMessage);
 
-If you want to create a new environment first use `virtualenv <environment>`.
+    constructor(string memory initialMessage) {
+        _message = initialMessage;
+    }
 
-Next, install the package.
+    function getMessage() external view returns (string memory) {
+        return _message;
+    }
 
-```
-pip install bitgov
-```
-
-**Note**: If you want to install the package locally and not in any specific environment use `pip install bitgov --user`.
-
-All done! You should now be able to see the package listed in your environment, `pip list`.
-
-## Usage
-
-To get started with BitGov create a Python file for your application and import the package.
-
-```
-import bitgov
+    function setMessage(string memory newMessage) external {
+        _message = newMessage;
+        emit MessageChanged(newMessage);
+    }
+}
 ```
 
-That's it!
+A few things to notice:
+
+| Concept | Meaning |
+|---|---|
+| `pragma solidity ^0.8.28` | Specifies the minimum compiler version |
+| `string private _message` | A state variable — stored permanently on-chain |
+| `constructor(...)` | Runs once at deployment |
+| `external view` | Read-only function; no gas cost when called off-chain |
+| `emit MessageChanged(...)` | Fires an event — cheap, indexable log entries on the blockchain |
+
+---
+
+## Project Setup
+
+This project uses [Hardhat](https://hardhat.org) — the most widely used Ethereum development environment.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) ≥ 18
+- npm ≥ 9
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Compile contracts
+
+```bash
+npm run compile
+```
+
+### Run tests
+
+```bash
+npm test
+```
+
+### Deploy locally (Hardhat network)
+
+```bash
+npx hardhat ignition deploy ignition/modules/HelloWorld.ts
+```
+
+---
+
+## Project Structure
+
+```
+bitgov/
+├── contracts/          # Solidity smart contracts
+│   └── HelloWorld.sol
+├── ignition/
+│   └── modules/        # Hardhat Ignition deployment modules
+│       └── HelloWorld.ts
+├── test/               # TypeScript test suite (Mocha + Ethers.js)
+│   └── HelloWorld.ts
+├── hardhat.config.ts   # Hardhat configuration
+└── tsconfig.json       # TypeScript configuration
+```
+
+---
+
+## Next Steps
+
+From this foundation, BitGov will grow to explore on-chain governance primitives:
+
+- **Voting** — token-weighted or one-person-one-vote ballot contracts
+- **Proposals** — on-chain creation, discussion, and execution of governance proposals
+- **Identity** — decentralized citizen identity using [OpenZeppelin](https://openzeppelin.com/contracts/)
+- **Treasury** — collectively controlled funds released by vote outcome
+
+---
+
+## License
+
+[MIT](LICENSE)
