@@ -6,8 +6,6 @@
 
 BitGov is an exploration of **decentralized digital democracy** using Solidity smart contracts on the Ethereum blockchain.
 
-> **Note:** The original Python implementation has been preserved on the [`copilot/preserve-old-python-code`](https://github.com/jgphilpott/bitgov/tree/copilot/preserve-old-python-code) branch.
-
 ---
 
 ## What is Solidity?

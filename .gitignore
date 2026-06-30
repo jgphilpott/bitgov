@@ -4,6 +4,12 @@
 # TypeScript compilation output
 /dist
 
+# Generated TypeScript artifacts
+/types
+/typechain-types
+/typechain
+/artifacts
+
 # Hardhat artifacts and cache
 /artifacts
 /cache
