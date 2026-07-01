@@ -69,8 +69,8 @@ This project uses [Hardhat](https://hardhat.org) — the most widely used Ethere
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org) ≥ 18
-- npm ≥ 9
+- [Node.js](https://nodejs.org) >= 20
+- npm >= 9
 
 ### Install dependencies
 
