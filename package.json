@@ -1,0 +1,21 @@
+{
+  "name": "bitgov",
+  "version": "0.1.0",
+  "description": "Decentralized digital democracy using Solidity smart contracts.",
+  "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.7",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^26.0.1",
+    "chai": "^6.2.2",
+    "ethers": "^6.17.0",
+    "hardhat": "^3.9.0",
+    "mocha": "^11.7.6",
+    "typescript": "^6.0.3"
+  }
+}
