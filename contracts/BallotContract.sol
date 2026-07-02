@@ -84,6 +84,7 @@ contract BallotContract {
     error SelfDelegation();    // a voter cannot delegate their vote to themselves
     error DelegationLoop();    // following the delegation chain would create a cycle
     error InvalidProposal();   // proposal index is out of bounds
+    error EmptyProposalList(); // deployment requires at least one proposal
     error VotingIsClosed();    // the chairperson has already closed the ballot
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -112,6 +113,8 @@ contract BallotContract {
     ///        The position in the array determines each proposal's zero-based index,
     ///        which is the value passed to vote().
     constructor(string[] memory proposalNames) {
+        if (proposalNames.length == 0) revert EmptyProposalList();
+
         // The deploying address becomes the permanent chairperson.
         chairperson = msg.sender;
 
@@ -180,6 +183,7 @@ contract BallotContract {
         if (!sender.registered) revert NotRegistered(); // only registered voters may delegate
         if (sender.voted)       revert AlreadyVoted();  // cannot delegate after already voting
         if (to == msg.sender)   revert SelfDelegation();// delegating to yourself is meaningless
+        if (!voters[to].registered) revert NotRegistered();
 
         // Walk the existing delegation chain starting at `to`.
         // We follow each node's .delegate field until we reach someone who

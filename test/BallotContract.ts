@@ -23,6 +23,14 @@ describe("BallotContract", function () {
     expect(await ballot.chairperson()).to.equal(chairperson.address);
   });
 
+  it("Should revert deployment with an empty proposal list", async function () {
+    const ballot = await ethers.deployContract("BallotContract", [proposals]);
+    await expect(ethers.deployContract("BallotContract", [[]])).to.be.revertedWithCustomError(
+      ballot,
+      "EmptyProposalList"
+    );
+  });
+
   // ── Voter registration ────────────────────────────────────────────────────
 
   it("Should register a voter and set their weight to 1", async function () {
@@ -188,6 +196,17 @@ describe("BallotContract", function () {
     await expect(ballot.connect(voter).delegate(voter.address)).to.be.revertedWithCustomError(
       ballot,
       "SelfDelegation"
+    );
+  });
+
+  it("Should revert when delegating to an unregistered address", async function () {
+    const [, delegator, unregistered] = await ethers.getSigners();
+    const ballot = await ethers.deployContract("BallotContract", [proposals]);
+
+    await ballot.registerVoter(delegator.address);
+    await expect(ballot.connect(delegator).delegate(unregistered.address)).to.be.revertedWithCustomError(
+      ballot,
+      "NotRegistered"
     );
   });
 

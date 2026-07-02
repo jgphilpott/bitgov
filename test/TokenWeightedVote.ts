@@ -23,6 +23,14 @@ describe("TokenWeightedVote", function () {
     expect(await twv.owner()).to.equal(owner.address);
   });
 
+  it("Should revert deployment with an empty proposal list", async function () {
+    const twv = await ethers.deployContract("TokenWeightedVote", [proposals]);
+    await expect(ethers.deployContract("TokenWeightedVote", [[]])).to.be.revertedWithCustomError(
+      twv,
+      "EmptyProposalList"
+    );
+  });
+
   // ── Token allocation ──────────────────────────────────────────────────────
 
   it("Should allocate tokens to a voter and update totalSupply", async function () {

@@ -75,6 +75,7 @@ contract TokenWeightedVote {
     error NotOwner();           // caller is not the contract owner
     error InsufficientTokens(); // voter's remaining balance is less than the requested weight
     error InvalidProposal();    // proposal index is out of bounds
+    error EmptyProposalList();  // deployment requires at least one proposal
     error ZeroWeight();         // committing zero tokens has no effect and is disallowed
     error VotingIsClosed();     // the owner has already closed the ballot
 
@@ -101,6 +102,8 @@ contract TokenWeightedVote {
     /// @param proposalNames Array of proposal name strings to vote on.
     ///        Position in the array determines the zero-based index used in vote().
     constructor(string[] memory proposalNames) {
+        if (proposalNames.length == 0) revert EmptyProposalList();
+
         owner = msg.sender; // the deploying account becomes the permanent owner
 
         // Populate the proposals array; every proposal starts with zero votes.
