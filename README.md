@@ -23,43 +23,15 @@ These properties make Solidity a natural fit for governance applications where t
 
 ---
 
-## Hello World
+## Contracts
 
-The classic starting point. The `HelloWorld` contract stores a greeting string on-chain and exposes functions to read and update it.
+| Contract | Description | Docs |
+|---|---|---|
+| [`HelloWorld`](contracts/HelloWorld.sol) | Classic starter — stores and updates a greeting string on-chain | [docs/HelloWorld.md](docs/HelloWorld.md) |
+| [`BallotContract`](contracts/BallotContract.sol) | One-person-one-vote ballot with delegation support | [docs/BallotContract.md](docs/BallotContract.md) |
+| [`TokenWeightedVote`](contracts/TokenWeightedVote.sol) | Token-weighted voting with partial/split vote support | [docs/TokenWeightedVote.md](docs/TokenWeightedVote.md) |
 
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
-
-contract HelloWorld {
-    string private _message;
-
-    event MessageChanged(string newMessage);
-
-    constructor(string memory initialMessage) {
-        _message = initialMessage;
-    }
-
-    function getMessage() external view returns (string memory) {
-        return _message;
-    }
-
-    function setMessage(string memory newMessage) external {
-        _message = newMessage;
-        emit MessageChanged(newMessage);
-    }
-}
-```
-
-A few things to notice:
-
-| Concept | Meaning |
-|---|---|
-| `pragma solidity ^0.8.28` | Specifies the minimum compiler version |
-| `string private _message` | A state variable — stored permanently on-chain |
-| `constructor(...)` | Runs once at deployment |
-| `external view` | Read-only function; no gas cost when called off-chain |
-| `emit MessageChanged(...)` | Fires an event — cheap, indexable log entries on the blockchain |
+Each contract page includes a full interface reference, event list, step-by-step deployment instructions, and an interactive Hardhat console walkthrough.
 
 ---
 
@@ -93,7 +65,13 @@ npm test
 ### Deploy locally (Hardhat network)
 
 ```bash
-npx hardhat ignition deploy ignition/modules/HelloWorld.ts
+# Start a local Hardhat node (first terminal)
+npx hardhat node
+
+# Deploy a contract (second terminal)
+npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localhost
+npx hardhat ignition deploy ignition/modules/TokenWeightedVote.ts --network localhost
+npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
 ```
 
 ---
@@ -103,12 +81,22 @@ npx hardhat ignition deploy ignition/modules/HelloWorld.ts
 ```
 bitgov/
 ├── contracts/          # Solidity smart contracts
-│   └── HelloWorld.sol
+│   ├── HelloWorld.sol
+│   ├── BallotContract.sol
+│   └── TokenWeightedVote.sol
+├── docs/               # Contract-specific documentation and interaction guides
+│   ├── HelloWorld.md
+│   ├── BallotContract.md
+│   └── TokenWeightedVote.md
 ├── ignition/
 │   └── modules/        # Hardhat Ignition deployment modules
-│       └── HelloWorld.ts
+│       ├── HelloWorld.ts
+│       ├── BallotContract.ts
+│       └── TokenWeightedVote.ts
 ├── test/               # TypeScript test suite (Mocha + Ethers.js)
-│   └── HelloWorld.ts
+│   ├── HelloWorld.ts
+│   ├── BallotContract.ts
+│   └── TokenWeightedVote.ts
 ├── hardhat.config.ts   # Hardhat configuration
 └── tsconfig.json       # TypeScript configuration
 ```
@@ -119,7 +107,6 @@ bitgov/
 
 From this foundation, BitGov will grow to explore on-chain governance primitives:
 
-- **Voting** — token-weighted or one-person-one-vote ballot contracts
 - **Proposals** — on-chain creation, discussion, and execution of governance proposals
 - **Identity** — decentralized citizen identity using [OpenZeppelin](https://openzeppelin.com/contracts/)
 - **Treasury** — collectively controlled funds released by vote outcome
