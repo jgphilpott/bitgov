@@ -88,7 +88,15 @@ npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localho
 npx hardhat console --network localhost
 ```
 
-### 4 — Attach to the deployed contract and load signers
+### 4 — Import ethers and load signers
+
+Hardhat v3 no longer injects globals into the console automatically.
+
+```javascript
+const { ethers } = await import("hardhat");
+```
+
+### 5 — Attach to the deployed contract and load signers
 
 ```javascript
 const ballot = await ethers.getContractAt("BallotContract", "0x5FbDB2315678afecb367f032d93F642f64180aa3");
