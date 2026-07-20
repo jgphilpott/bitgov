@@ -71,12 +71,12 @@ npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
 npx hardhat console --network localhost
 ```
 
-### 4 — Import ethers
+### 4 — Get ethers from the network connection
 
-Hardhat v3 no longer injects globals into the console automatically.
+In Hardhat v3, `ethers` is accessed via the `network` global that the console provides.
 
 ```javascript
-const { ethers } = await import("hardhat");
+const { ethers } = await network.connect();
 ```
 
 ### 5 — Attach to the deployed contract
