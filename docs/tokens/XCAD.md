@@ -28,7 +28,7 @@ contract XCAD is ERC20, ERC20Burnable, Ownable {
 ## Deploy
 
 ```bash
-npx hardhat ignition deploy ignition/modules/XCAD.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/XCAD.ts --network localhost
 ```
 
 The default Ignition module assigns ownership to the first local account and mints `1,000,000 XCAD` (with 6 decimals) to that same account.
@@ -46,7 +46,7 @@ npx hardhat node
 ### 2 — Deploy the contract
 
 ```bash
-npx hardhat ignition deploy ignition/modules/XCAD.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/XCAD.ts --network localhost
 ```
 
 ### 3 — Open the Hardhat console

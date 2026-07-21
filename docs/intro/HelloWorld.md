@@ -43,7 +43,7 @@ contract HelloWorld {
 ## Deploy
 
 ```bash
-npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
+npx hardhat ignition deploy ignition/modules/intro/HelloWorld.ts --network localhost
 ```
 
 The deployment module passes `"Hello, World!"` as the initial message. Note the address printed at the end of the output — you will need it for the console session below.
@@ -61,7 +61,7 @@ npx hardhat node
 ### 2 — Deploy (second terminal)
 
 ```bash
-npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
+npx hardhat ignition deploy ignition/modules/intro/HelloWorld.ts --network localhost
 # Deployed HelloWorldModule#HelloWorld at 0x5FbDB2315678afecb367f032d93F642f64180aa3
 ```
 

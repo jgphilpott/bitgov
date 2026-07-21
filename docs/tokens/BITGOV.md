@@ -26,7 +26,7 @@ contract BITGOV is ERC20, ERC20Burnable, ERC20Capped {
 ## Deploy
 
 ```bash
-npx hardhat ignition deploy ignition/modules/BITGOV.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/BITGOV.ts --network localhost
 ```
 
 The default Ignition module sends the entire capped supply to the first local account.
@@ -44,7 +44,7 @@ npx hardhat node
 ### 2 — Deploy the contract
 
 ```bash
-npx hardhat ignition deploy ignition/modules/BITGOV.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/BITGOV.ts --network localhost
 ```
 
 ### 3 — Open the Hardhat console

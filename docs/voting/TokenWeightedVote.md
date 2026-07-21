@@ -58,7 +58,7 @@
 ## Deploy
 
 ```bash
-npx hardhat ignition deploy ignition/modules/TokenWeightedVote.ts --network localhost
+npx hardhat ignition deploy ignition/modules/voting/TokenWeightedVote.ts --network localhost
 ```
 
 The deployment module creates a ballot with three proposals: `["Proposal A", "Proposal B", "Proposal C"]`. Note the address printed in the output.
@@ -78,7 +78,7 @@ Hardhat's built-in node pre-funds 20 test accounts. The first account (`index 0`
 ### 2 — Deploy (second terminal)
 
 ```bash
-npx hardhat ignition deploy ignition/modules/TokenWeightedVote.ts --network localhost
+npx hardhat ignition deploy ignition/modules/voting/TokenWeightedVote.ts --network localhost
 # Deployed TokenWeightedVoteModule#TokenWeightedVote at 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
 ```
 
