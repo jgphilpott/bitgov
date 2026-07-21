@@ -71,20 +71,28 @@ npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
 npx hardhat console --network localhost
 ```
 
-### 4 — Attach to the deployed contract
+### 4 — Get ethers from the network connection
+
+In Hardhat v3, `ethers` is accessed via the `network` global that the console provides.
+
+```javascript
+const { ethers } = await network.connect();
+```
+
+### 5 — Attach to the deployed contract
 
 ```javascript
 const hw = await ethers.getContractAt("HelloWorld", "0x5FbDB2315678afecb367f032d93F642f64180aa3");
 ```
 
-### 5 — Read the current message
+### 6 — Read the current message
 
 ```javascript
 await hw.getMessage();
 // 'Hello, World!'
 ```
 
-### 6 — Update the message
+### 7 — Update the message
 
 ```javascript
 await hw.setMessage("Hello, BitGov!");

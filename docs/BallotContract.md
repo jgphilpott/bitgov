@@ -88,7 +88,15 @@ npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localho
 npx hardhat console --network localhost
 ```
 
-### 4 — Attach to the deployed contract and load signers
+### 4 — Get ethers from the network connection
+
+In Hardhat v3, `ethers` is accessed via the `network` global that the console provides.
+
+```javascript
+const { ethers } = await network.connect();
+```
+
+### 5 — Attach to the deployed contract and load signers
 
 ```javascript
 const ballot = await ethers.getContractAt("BallotContract", "0x5FbDB2315678afecb367f032d93F642f64180aa3");
@@ -99,7 +107,7 @@ const signers = await ethers.getSigners();
 const [chairperson, alice, bob, carol, dave] = signers;
 ```
 
-### 5 — Register voters
+### 6 — Register voters
 
 ```javascript
 // Register a single voter
@@ -109,7 +117,7 @@ await ballot.registerVoter(alice.address);
 await ballot.registerVoters([bob.address, carol.address, dave.address]);
 ```
 
-### 6 — Inspect the voter records
+### 7 — Inspect the voter records
 
 ```javascript
 // Returns (registered, voted, delegate, vote, weight)
@@ -117,7 +125,7 @@ await ballot.voters(alice.address);
 // { registered: true, voted: false, delegate: '0x000...', vote: 0n, weight: 1n }
 ```
 
-### 7 — Delegate a vote
+### 8 — Delegate a vote
 
 Bob delegates his vote to Alice. Alice will carry weight 2 when she votes.
 
@@ -129,7 +137,7 @@ await ballot.voters(alice.address);
 // { ..., weight: 2n }
 ```
 
-### 8 — Cast votes
+### 9 — Cast votes
 
 ```javascript
 // Alice votes for proposal 0 ("Alice") — her weight 2 counts here
@@ -142,7 +150,7 @@ await ballot.connect(carol).vote(1);
 await ballot.connect(dave).vote(2);
 ```
 
-### 9 — Check the running tally
+### 10 — Check the running tally
 
 ```javascript
 // Proposal vote counts
@@ -156,7 +164,7 @@ console.log(`${name1}: ${count1}`); // Bob: 1
 await ballot.winnerName(); // 'Alice'
 ```
 
-### 10 — Close the ballot
+### 11 — Close the ballot
 
 ```javascript
 await ballot.closeVoting();
