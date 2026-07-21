@@ -107,7 +107,7 @@ const signers = await ethers.getSigners();
 const [owner, alice, bob, carol] = signers;
 ```
 
-### 5 — Allocate governance tokens
+### 6 — Allocate governance tokens
 
 ```javascript
 await twv.allocateTokens(alice.address, 100);
@@ -122,14 +122,14 @@ await twv.voters(alice.address);
 // { balance: 100n, spent: 0n }
 ```
 
-### 6 — Cast votes (single proposal)
+### 7 — Cast votes (single proposal)
 
 ```javascript
 // Bob puts all 50 tokens on Proposal A (index 0)
 await twv.connect(bob).vote(0, 50);
 ```
 
-### 7 — Cast a split vote (multiple proposals)
+### 8 — Cast a split vote (multiple proposals)
 
 ```javascript
 // Alice spreads her 100 tokens across two proposals
@@ -140,7 +140,7 @@ await twv.connect(alice).vote(1, 40); // 40 tokens → Proposal B
 await twv.remainingTokens(alice.address); // 0n
 ```
 
-### 8 — Check the running tally
+### 9 — Check the running tally
 
 ```javascript
 // Proposal vote counts
@@ -154,7 +154,7 @@ console.log(`${nameB}: ${countB}`); // Proposal B: 40
 await twv.winnerName(); // 'Proposal A'
 ```
 
-### 9 — Top up a voter's balance mid-poll
+### 10 — Top up a voter's balance mid-poll
 
 `allocateTokens` is additive, so you can call it again to give a voter more tokens while voting is still open.
 
@@ -167,7 +167,7 @@ await twv.voters(carol.address);
 await twv.connect(carol).vote(2, 300);
 ```
 
-### 10 — Close the ballot
+### 11 — Close the ballot
 
 ```javascript
 await twv.closeVoting();
