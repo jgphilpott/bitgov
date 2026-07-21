@@ -27,9 +27,11 @@ These properties make Solidity a natural fit for governance applications where t
 
 | Contract | Description | Docs |
 |---|---|---|
-| [`HelloWorld`](contracts/HelloWorld.sol) | Classic starter — stores and updates a greeting string on-chain | [docs/HelloWorld.md](docs/HelloWorld.md) |
-| [`BallotContract`](contracts/BallotContract.sol) | One-person-one-vote ballot with delegation support | [docs/BallotContract.md](docs/BallotContract.md) |
-| [`TokenWeightedVote`](contracts/TokenWeightedVote.sol) | Token-weighted voting with partial/split vote support | [docs/TokenWeightedVote.md](docs/TokenWeightedVote.md) |
+| [`HelloWorld`](contracts/intro/HelloWorld.sol) | Classic starter — stores and updates a greeting string on-chain | [docs/intro/HelloWorld.md](docs/intro/HelloWorld.md) |
+| [`BallotContract`](contracts/voting/BallotContract.sol) | One-person-one-vote ballot with delegation support | [docs/voting/BallotContract.md](docs/voting/BallotContract.md) |
+| [`TokenWeightedVote`](contracts/voting/TokenWeightedVote.sol) | Token-weighted voting with partial/split vote support | [docs/voting/TokenWeightedVote.md](docs/voting/TokenWeightedVote.md) |
+| [`XCAD`](contracts/tokens/XCAD.sol) | Centrally issued Canadian-dollar stablecoin prototype with owner-controlled minting | [docs/tokens/XCAD.md](docs/tokens/XCAD.md) |
+| [`BITGOV`](contracts/tokens/BITGOV.sol) | Scarce ERC-20 token with a Bitcoin-style hard cap and fixed deployment supply | [docs/tokens/BITGOV.md](docs/tokens/BITGOV.md) |
 
 Each contract page includes a full interface reference, event list, step-by-step deployment instructions, and an interactive Hardhat console walkthrough.
 
@@ -69,36 +71,11 @@ npm test
 npx hardhat node
 
 # Deploy a contract (second terminal)
-npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localhost
-npx hardhat ignition deploy ignition/modules/TokenWeightedVote.ts --network localhost
-npx hardhat ignition deploy ignition/modules/HelloWorld.ts --network localhost
-```
-
----
-
-## Project Structure
-
-```
-bitgov/
-├── contracts/          # Solidity smart contracts
-│   ├── HelloWorld.sol
-│   ├── BallotContract.sol
-│   └── TokenWeightedVote.sol
-├── docs/               # Contract-specific documentation and interaction guides
-│   ├── HelloWorld.md
-│   ├── BallotContract.md
-│   └── TokenWeightedVote.md
-├── ignition/
-│   └── modules/        # Hardhat Ignition deployment modules
-│       ├── HelloWorld.ts
-│       ├── BallotContract.ts
-│       └── TokenWeightedVote.ts
-├── test/               # TypeScript test suite (Mocha + Ethers.js)
-│   ├── HelloWorld.ts
-│   ├── BallotContract.ts
-│   └── TokenWeightedVote.ts
-├── hardhat.config.ts   # Hardhat configuration
-└── tsconfig.json       # TypeScript configuration
+npx hardhat ignition deploy ignition/modules/voting/BallotContract.ts --network localhost
+npx hardhat ignition deploy ignition/modules/voting/TokenWeightedVote.ts --network localhost
+npx hardhat ignition deploy ignition/modules/intro/HelloWorld.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/XCAD.ts --network localhost
+npx hardhat ignition deploy ignition/modules/tokens/BITGOV.ts --network localhost
 ```
 
 ---

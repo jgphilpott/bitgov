@@ -58,7 +58,7 @@
 ## Deploy
 
 ```bash
-npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localhost
+npx hardhat ignition deploy ignition/modules/voting/BallotContract.ts --network localhost
 ```
 
 The deployment module creates a ballot with three proposals: `["Alice", "Bob", "Carol"]`. Note the address printed in the output.
@@ -78,7 +78,7 @@ Hardhat's built-in node pre-funds 20 test accounts. The first account (`index 0`
 ### 2 — Deploy (second terminal)
 
 ```bash
-npx hardhat ignition deploy ignition/modules/BallotContract.ts --network localhost
+npx hardhat ignition deploy ignition/modules/voting/BallotContract.ts --network localhost
 # Deployed BallotContractModule#BallotContract at 0x5FbDB2315678afecb367f032d93F642f64180aa3
 ```
 
