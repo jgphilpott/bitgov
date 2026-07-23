@@ -10,7 +10,7 @@ Treat this as an operational checklist — do everything on a testnet first and 
 - Ensure decimals and ERC-20 behaviour are standard (no fees-on-transfer unless expected by integrators).
 - Decide the pair asset (ETH, WETH, stablecoin like USDC) and initial price.
 - Use a multisig/Gnosis Safe to hold LP tokens and to perform liquidity provisioning if possible.
-- Test the full flow on a public testnet (Sepolia/Goerli) and simulate buys/sells.
+- Test the full flow on a public testnet (Sepolia/Holesky) and simulate buys/sells.
 
 ## Create the pool (Uniswap v2 / v3 concepts)
 
