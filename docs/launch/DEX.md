@@ -27,7 +27,7 @@ Key points:
 
 ```js
 const router = await ethers.getContractAt('IUniswapV2Router02', ROUTER_ADDRESS);
-await token.connect(deployer).approve(router.address, amountA);
+await token.connect(deployer).approve(await router.getAddress(), amountA);
 ```
 
 2) Add liquidity (token <> WETH example):
