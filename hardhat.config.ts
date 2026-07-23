@@ -14,6 +14,12 @@ export default defineConfig({
       default: {
         version: "0.8.28",
         path: solcPath,
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       },
     },
   },
