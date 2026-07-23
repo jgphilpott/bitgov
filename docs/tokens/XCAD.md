@@ -85,3 +85,31 @@ await xcad.mint("RECIPIENT_ADDRESS", 500_000n);
 ```javascript
 await xcad.burn(100_000n);
 ```
+
+---
+
+## Production-readiness notes
+
+`XCAD` is a good minimal prototype for a centrally-issued fiat token, but launching real value requires additional safety, governance, and operational controls. Consider the following before any public issuance:
+
+- Ownership and access
+    - Use a multisig or timelock rather than a single EOA for the `owner` role.
+    - Prefer `AccessControl` with named roles (`MINTER`, `PAUSER`) when multiple operators are required.
+
+- Safety controls
+    - Add `Pausable` so transfers and minting can be halted during emergencies.
+    - Add a hard cap (`ERC20Capped`) or governance-controlled cap to limit total supply.
+    - Implement mint rate limits (per-call and per-period) to reduce operational risk.
+
+- Governance & custody
+    - Require a timelock or governance vote for sensitive actions (large mints, role changes, upgrades).
+    - Maintain transparent reserve reporting and on-chain proofs where possible; the peg remains an off-chain responsibility.
+
+- Testing, audit & monitoring
+    - Add comprehensive unit, integration, and fuzz/property tests covering minting, burning, cap enforcement, pause behaviour, and role permissions.
+    - Run static analysis and obtain a third-party security audit before mainnet issuance.
+    - Set up monitoring and alerts for unusual minting or transfer activity.
+
+- UX & integrations
+    - Consider EIP-2612 `permit()` for gasless approvals and improved UX.
+    - Document off-chain redemption and reserve procedures clearly for auditors and users.
