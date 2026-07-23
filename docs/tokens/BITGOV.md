@@ -91,7 +91,7 @@ await bitgov.burn(50_000_000n);
 `BITGOV` is a scarce, fixed-supply token designed to mirror Bitcoin's hard cap. That makes it a good candidate for stores-of-value, but before any public issuance consider the following checklist:
 
 - Compile & code hygiene
-    - Remove any non-standard or incorrect overrides (for example `_update` is not an OpenZeppelin ERC-20 hook and will prevent compilation). Use standard hooks such as `_beforeTokenTransfer` if you need custom logic.
+    - Remove any non-standard or incorrect overrides; in OpenZeppelin Contracts v5 the main ERC-20 extension point is `_update(...)` (not `_beforeTokenTransfer`), so keep overrides consistent with OZ’s signature and your inheritance graph.
     - Prefer explicit `10 ** uint256(decimals())` for computed constants to avoid integer promotion surprises.
 
 - Custody & governance
