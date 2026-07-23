@@ -10,7 +10,7 @@ Use this as a checklist — deploying live value requires caution, audits, and g
    - Ensure unit, integration and fuzz/property tests pass.
    - Obtain a third-party security audit before issuing real value.
 2. Use a testnet first
-   - Deploy to a public testnet (Goerli, Sepolia, or the network equivalent) and exercise all flows.
+   - Deploy to a public testnet (Sepolia, Holesky, or the network equivalent) and exercise all flows.
 3. Prepare a safe deployer
    - Use a funded, multi-signature wallet (Gnosis Safe) for long-term custody of minted supply or critical admin keys.
    - If you must use an EOA for deployment, keep the private key off-repo and use environment variables or a secure signer service.
