@@ -1,6 +1,6 @@
 # XCAD Contract
 
-The `XCAD` contract is a fiat-style ERC-20 token intended to represent a Canadian-dollar-pegged stablecoin. It uses standard token transfers, owner-controlled minting, and holder-controlled burning.
+The `XCAD` contract is a DAO-governed ERC-20 token intended to represent a Canadian-dollar-pegged stablecoin. The owner of the contract is the `XCADTimelockController`, meaning all sensitive parameter changes require a successful `XCADGovernor` vote before they can take effect.
 
 > The peg is **not** enforced by Solidity alone. Keeping `1 XCAD ≈ 1 CAD` requires off-chain reserve management, redemption operations, audits, and governance.
 
@@ -9,10 +9,20 @@ The `XCAD` contract is a fiat-style ERC-20 token intended to represent a Canadia
 ## Contract overview
 
 ```solidity
-contract XCAD is ERC20, ERC20Burnable, Ownable {
-    constructor(address initialOwner, address initialRecipient, uint256 initialSupply) { ... }
-    function decimals() public pure override returns (uint8) { ... }
+contract XCAD is ERC20, ERC20Burnable, Ownable, Pausable {
+    constructor(
+        address initialOwner,      // XCADTimelockController in production
+        address initialRecipient,
+        uint256 initialSupply,
+        uint256 initialSupplyCap   // 0 = uncapped
+    ) { ... }
+
+    // DAO-gated (onlyOwner = timelock)
     function mint(address to, uint256 amount) external onlyOwner { ... }
+    function setSupplyCap(uint256 newCap) external onlyOwner { ... }
+    function setDecimals(uint8 newDecimals) external onlyOwner { ... }
+    function pause() external onlyOwner { ... }
+    function unpause() external onlyOwner { ... }
 }
 ```
 
@@ -20,18 +30,28 @@ contract XCAD is ERC20, ERC20Burnable, Ownable {
 |---|---|
 | `ERC20` | Standard fungible-token behavior (balances, transfers, allowances) |
 | `ERC20Burnable` | Holders can destroy their own tokens or approved tokens |
-| `Ownable` | Only the configured issuer account can mint new supply |
-| `decimals() = 6` | Uses fiat-style precision similar to many stablecoins |
+| `Ownable` | The `XCADTimelockController` is the owner; only the DAO can mint / change parameters |
+| `Pausable` | Emergency circuit-breaker: halts all transfers, mints, and burns |
+| `supplyCap` | Governance-controlled max supply; `0` means uncapped |
+| `decimals()` | Mutable display precision (cosmetic only — see warning below) |
+
+> **Decimals warning:** `setDecimals()` changes how UIs render balances but does **not** rescale any stored amounts. Use only if you have a deliberate reason (e.g. aligning with a new peg standard) and communicate the change clearly to users and integrators beforehand.
 
 ---
 
 ## Deploy
 
+Prefer the full governance deployment which wires all contracts together:
+
+```bash
+npx hardhat ignition deploy ignition/modules/governance/XCADGovernor.ts --network localhost
+```
+
+For a standalone XCAD deployment (e.g. staging, with a single EOA as owner):
+
 ```bash
 npx hardhat ignition deploy ignition/modules/tokens/XCAD.ts --network localhost
 ```
-
-The default Ignition module assigns ownership to the first local account and mints `1,000,000 XCAD` (with 6 decimals) to that same account.
 
 ---
 
@@ -71,16 +91,27 @@ const xcad = await ethers.getContractAt("XCAD", "DEPLOYED_CONTRACT_ADDRESS");
 
 ```javascript
 await xcad.totalSupply();
-await xcad.owner();
+await xcad.supplyCap();   // 0 = uncapped
+await xcad.decimals();
+await xcad.owner();       // should be the timelock in production
 ```
 
-### 7 — Mint more XCAD as the issuer
+### 7 — Mint more XCAD (requires owner / DAO approval in production)
 
 ```javascript
 await xcad.mint("RECIPIENT_ADDRESS", 500_000n);
 ```
 
-### 8 — Burn your own XCAD
+### 8 — Update the supply cap via governance
+
+See `docs/governance/XCADGovernor.md` for the full proposal lifecycle. Example calldata:
+
+```javascript
+const iface    = new ethers.Interface(["function setSupplyCap(uint256)"]);
+const calldata = iface.encodeFunctionData("setSupplyCap", [2_000_000n * 10n ** 6n]);
+```
+
+### 9 — Burn your own XCAD
 
 ```javascript
 await xcad.burn(100_000n);
@@ -90,23 +121,25 @@ await xcad.burn(100_000n);
 
 ## Production-readiness notes
 
-`XCAD` is a good minimal prototype for a centrally-issued fiat token, but launching real value requires additional safety, governance, and operational controls. Consider the following before any public issuance:
+`XCAD` is a governance-controlled stablecoin prototype. Before any public issuance consider the following:
 
 - Ownership and access
-    - Use a multisig or timelock rather than a single EOA for the `owner` role.
-    - Prefer `AccessControl` with named roles (`MINTER`, `PAUSER`) when multiple operators are required.
+    - The `initialOwner` should be an `XCADTimelockController` governed by `XCADGovernor`. Never deploy with a single EOA as owner in production.
+    - After deployment, verify `xcad.owner()` equals the timelock address.
 
-- Safety controls
-    - Add `Pausable` so transfers and minting can be halted during emergencies.
-    - Add a hard cap (`ERC20Capped`) or governance-controlled cap to limit total supply.
-    - Implement mint rate limits (per-call and per-period) to reduce operational risk.
+- Supply cap
+    - Set `initialSupplyCap` to a conservative upper bound for the initial launch. The DAO can raise it later via governance.
+    - A cap of `0` (uncapped) should only be used for testing or if the supply model is deliberately unbounded.
+
+- Pause mechanism
+    - The pause circuit-breaker halts ALL token operations (transfers, mints, burns). Unpausing also requires a governance vote (owner = timelock).
+    - For faster emergency response, consider assigning a `GUARDIAN` role (e.g. a multisig) that can pause without a vote, but require governance to unpause.
 
 - Governance & custody
-    - Require a timelock or governance vote for sensitive actions (large mints, role changes, upgrades).
-    - Maintain transparent reserve reporting and on-chain proofs where possible; the peg remains an off-chain responsibility.
+    - Require a governance vote for large mints, cap changes, and upgrades.
+    - Maintain transparent reserve reporting and on-chain proofs where possible.
 
 - Testing, audit & monitoring
-    - Add comprehensive unit, integration, and fuzz/property tests covering minting, burning, cap enforcement, pause behaviour, and role permissions.
     - Run static analysis and obtain a third-party security audit before mainnet issuance.
     - Set up monitoring and alerts for unusual minting or transfer activity.
 
