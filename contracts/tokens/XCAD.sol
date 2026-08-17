@@ -34,6 +34,9 @@ contract XCAD is ERC20, ERC20Burnable, Ownable, Pausable {
     /// @dev Attempted mint would exceed the active supply cap.
     error SupplyCapExceeded(uint256 requested, uint256 cap);
 
+    /// @dev New cap is non-zero but below the current total supply.
+    error SupplyCapBelowTotalSupply(uint256 newCap, uint256 currentSupply);
+
     /// @param initialOwner      Account that controls minting, parameters, and pause
     ///                          (use an XCADTimelockController in production).
     /// @param initialRecipient  Account that receives the initial token supply.
@@ -75,6 +78,9 @@ contract XCAD is ERC20, ERC20Burnable, Ownable, Pausable {
 
     /// @notice Updates the supply cap. Pass 0 to remove the cap entirely.
     function setSupplyCap(uint256 newCap) external onlyOwner {
+        if (newCap != 0 && newCap < totalSupply()) {
+            revert SupplyCapBelowTotalSupply(newCap, totalSupply());
+        }
         emit SupplyCapUpdated(supplyCap, newCap);
         supplyCap = newCap;
     }
